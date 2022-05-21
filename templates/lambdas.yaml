@@ -7,7 +7,7 @@ Parameters:
     Default: 'BucketsStack'
   LambdasRole:
     Type: String
-    Default: arn:aws:iam::826879403722:role/LabRole
+    Default: arn:aws:iam::980494704750:role/LabRole
   DynamoDbTable:
     Type: String
     Default: CelebRequests
