@@ -36,22 +36,22 @@ jobs:
           filename: 'release.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
-      # Runs a set of commands using the runners shell
-    - name: Commit files
-      id: commit
-      run: |
-        git config --local user.email "Ghadasz@interia.eu"
-        git config --local user.name "hadaszm"
-        git add --all
-        if [-z "$(git status --porcelain)"]; then
-           echo "::set-output name=push::false"
-        else
-           git commit -m "Add changes" -a
-           echo "::set-output name=push::true"
-        fi
-      shell: bash
-    - name: Push changes
-      if: steps.commit.outputs.push == 'true'
-      uses: ad-m/github-push-action@master
-      with:
-         github_token: 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
+        # Runs a set of commands using the runners shell
+      - name: Commit files
+        id: commit
+        run: |
+          git config --local user.email "Ghadasz@interia.eu"
+          git config --local user.name "hadaszm"
+          git add --all
+          if [-z "$(git status --porcelain)"]; then
+            echo "::set-output name=push::false"
+          else
+            git commit -m "Add changes" -a
+            echo "::set-output name=push::true"
+          fi
+        shell: bash
+      - name: Push changes
+        if: steps.commit.outputs.push == 'true'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: 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
