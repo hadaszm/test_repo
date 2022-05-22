@@ -69,7 +69,7 @@ Resources:
             BucketName: 
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'false'
+            Extract: 'true'
             ObjectKey: delete_celeb_lambda.zip
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
@@ -85,7 +85,7 @@ Resources:
             BucketName: 
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'false'
+            Extract: 'true'
             ObjectKey: rekognition_lambda.zip
           Region: !Ref 'AWS::Region' 
           OutputArtifacts: []         
@@ -101,7 +101,7 @@ Resources:
             BucketName: 
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'false'
+            Extract: 'true'
             ObjectKey: save_results_lambda.zip
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
@@ -117,7 +117,7 @@ Resources:
             BucketName: 
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'false'
+            Extract: 'true'
             ObjectKey: send_report_lambda.zip
           Region: !Ref 'AWS::Region' 
           OutputArtifacts: []       
@@ -133,7 +133,7 @@ Resources:
             BucketName: 
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'false'
+            Extract: 'true'
             ObjectKey: subscribe_reports_lambda.zip
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
