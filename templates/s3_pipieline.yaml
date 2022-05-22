@@ -3,6 +3,9 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: template for creating pipelines
 
 Parameters:
+  BucketsStackName:
+    Type: String
+    Default: 'BucketsStack'
   RepoOwner:
     Type: String
     Default: 'hadaszm'
@@ -63,50 +66,71 @@ Resources:
           RunOrder: 1
       - Name: Deploy
         Actions:
-        - Name: BucketDeploy
+        - Name: Lambda1Deploy
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: CloudFormation
+            Provider: S3
             Version: '1'
           InputArtifacts:
-            - Name: SourceCode
+            - Name: SourceArtifact
           Configuration:
-            ActionMode: CREATE_UPDATE
-            Capabilities: CAPABILITY_IAM
-            RoleArn: !Ref PipelineRole
-            StackName: !Ref BucketsStackName
-            TemplatePath: !Sub "SourceCode::templates/buckets.yaml"
-        - Name: LambdaDeploy
+            BucketName: "${BucketsStackName}-CodeBucketName"
+            Extract: 'false'
+            ObjectKey: SourceCode::zips/delete_celeb_lambda.zip
+          Region: !Ref 'AWS::Region'
+        - Name: Lambda2Deploy
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: CloudFormation
+            Provider: S3
             Version: '1'
           InputArtifacts:
-            - Name: SourceCode
+            - Name: SourceArtifact
           Configuration:
-            ActionMode: CREATE_UPDATE
-            Capabilities: CAPABILITY_IAM
-            RoleArn: !Ref PipelineRole
-            StackName: !Ref LambdasStackName
-            TemplatePath: !Sub "SourceCode::templates/lambdas.yaml"
-        - Name: ApiGatewayDeploy
+            BucketName: "${BucketsStackName}-CodeBucketName"
+            Extract: 'false'
+            ObjectKey: SourceCode::zips/rekognition_lambda.zip
+          Region: !Ref 'AWS::Region'          
+        - Name: Lambda3Deploy
           ActionTypeId:
             Category: Deploy
             Owner: AWS
-            Provider: CloudFormation
+            Provider: S3
             Version: '1'
           InputArtifacts:
-            - Name: SourceCode
+            - Name: SourceArtifact
           Configuration:
-            ActionMode: CREATE_UPDATE
-            Capabilities: CAPABILITY_IAM
-            RoleArn: !Ref PipelineRole
-            StackName: !Ref ApiGatewayStackName
-            TemplatePath: !Sub "SourceCode::templates/api_gateway.yaml"
-          RunOrder: 1     
-
+            BucketName: "${BucketsStackName}-CodeBucketName"
+            Extract: 'false'
+            ObjectKey: SourceCode::zips/save_results_lambda.zip
+          Region: !Ref 'AWS::Region'
+        - Name: Lambda4Deploy
+          ActionTypeId:
+            Category: Deploy
+            Owner: AWS
+            Provider: S3
+            Version: '1'
+          InputArtifacts:
+            - Name: SourceArtifact
+          Configuration:
+            BucketName: "${BucketsStackName}-CodeBucketName"
+            Extract: 'false'
+            ObjectKey: SourceCode::zips/send_report_lambda.zip
+          Region: !Ref 'AWS::Region'        
+        - Name: Lambda5Deploy
+          ActionTypeId:
+            Category: Deploy
+            Owner: AWS
+            Provider: S3
+            Version: '1'
+          InputArtifacts:
+            - Name: SourceArtifact
+          Configuration:
+            BucketName: "${BucketsStackName}-CodeBucketName"
+            Extract: 'false'
+            ObjectKey: SourceCode::zips/subscribe_reports_lambda.zip
+          Region: !Ref 'AWS::Region'
 
   GithubWebhook:
     Type: 'AWS::CodePipeline::Webhook'
