@@ -5,7 +5,7 @@ for f in os.listdir('code'):
     file = f.split('.')
     if file[1] == 'py':
         try:
-            zf = ZipFile(os.path.join('zips', file[0], '.zip'), mode='w')
+            zf = ZipFile(os.path.join('zips',f'{file[0]}.zip'), mode='w')
             zf.write(os.path.join('code',f))
             zf.close()
         except Exception as e:
