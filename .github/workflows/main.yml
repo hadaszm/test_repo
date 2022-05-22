@@ -32,6 +32,7 @@ jobs:
         uses: thedoctor0/zip-release@main
         with:
           type: 'zip'
+          directory: 'zips'
           filename: 'release.zip'
           exclusions: '*.git* /*node_modules/* .editorconfig'
 
