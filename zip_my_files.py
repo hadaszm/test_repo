@@ -1,7 +1,7 @@
 from zipfile import ZipFile
 import os
 
-os.makedir('zips')
+
 for f in os.listdir('code'):
     file = f.split('.')
     if file[1] == 'py':
