@@ -8,28 +8,19 @@ Parameters:
     Default: 'BucketsStack'
   RepoOwner:
     Type: String
-    Default: 'hadaszm'
+    Default: hadaszm
   RepoName:
     Type: String
-    Default: 'test_repo'
+    Default: 'test_repo' 
   RepoBranch:
     Type: String
     Default: 'main'
-  BucketsStackName:
-    Type: String
-    Default: 'BucketsStack'
-  LambdasStackName:
-    Type: String
-    Default: 'LambdasStack'
-  ApiGatewayStackName:
-    Type: String
-    Default: 'ApiGatewayStack'
   PipelineRole:
     Type: String
-    Default:  arn:aws:iam::980494704750:role/LabRole
+    Default: arn:aws:iam::980494704750:role/LabRole
   OAuthToken:
     Type: String
-    Default: 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
+    Default: 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
 
 Resources:
   PipelineArtifactsBucket:
@@ -56,7 +47,7 @@ Resources:
             Version: 1
             Provider: GitHub
           OutputArtifacts:
-          - Name: SourceCode
+          - Name: SourceArtifact
           Configuration:
             Owner: !Ref RepoOwner
             Repo: !Ref RepoName
@@ -75,10 +66,13 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            BucketName: "${BucketsStackName}-CodeBucketName"
+            BucketName: 
+              Fn::ImportValue:
+                !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'false'
-            ObjectKey: SourceCode::zips/delete_celeb_lambda.zip
+            ObjectKey: delete_celeb_lambda.zip
           Region: !Ref 'AWS::Region'
+          OutputArtifacts: []
         - Name: Lambda2Deploy
           ActionTypeId:
             Category: Deploy
@@ -88,10 +82,13 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            BucketName: "${BucketsStackName}-CodeBucketName"
+            BucketName: 
+              Fn::ImportValue:
+                !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'false'
-            ObjectKey: SourceCode::zips/rekognition_lambda.zip
-          Region: !Ref 'AWS::Region'          
+            ObjectKey: rekognition_lambda.zip
+          Region: !Ref 'AWS::Region' 
+          OutputArtifacts: []         
         - Name: Lambda3Deploy
           ActionTypeId:
             Category: Deploy
@@ -101,10 +98,13 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            BucketName: "${BucketsStackName}-CodeBucketName"
+            BucketName: 
+              Fn::ImportValue:
+                !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'false'
-            ObjectKey: SourceCode::zips/save_results_lambda.zip
+            ObjectKey: save_results_lambda.zip
           Region: !Ref 'AWS::Region'
+          OutputArtifacts: []
         - Name: Lambda4Deploy
           ActionTypeId:
             Category: Deploy
@@ -114,10 +114,13 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            BucketName: "${BucketsStackName}-CodeBucketName"
+            BucketName: 
+              Fn::ImportValue:
+                !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'false'
-            ObjectKey: SourceCode::zips/send_report_lambda.zip
-          Region: !Ref 'AWS::Region'        
+            ObjectKey: send_report_lambda.zip
+          Region: !Ref 'AWS::Region' 
+          OutputArtifacts: []       
         - Name: Lambda5Deploy
           ActionTypeId:
             Category: Deploy
@@ -127,17 +130,22 @@ Resources:
           InputArtifacts:
             - Name: SourceArtifact
           Configuration:
-            BucketName: "${BucketsStackName}-CodeBucketName"
+            BucketName: 
+              Fn::ImportValue:
+                !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'false'
-            ObjectKey: SourceCode::zips/subscribe_reports_lambda.zip
+            ObjectKey: subscribe_reports_lambda.zip
           Region: !Ref 'AWS::Region'
+          OutputArtifacts: []
+          RunOrder: 1     
+
 
   GithubWebhook:
     Type: 'AWS::CodePipeline::Webhook'
     Properties:
       Authentication: GITHUB_HMAC
       AuthenticationConfiguration:
-        SecretToken: !Ref
+        SecretToken: !Ref OAuthToken
       RegisterWithThirdParty: 'true'
       Filters:
       - JsonPath: "$.ref"
@@ -145,5 +153,6 @@ Resources:
       TargetPipeline: !Ref CodePipeline
       TargetAction: Source
       TargetPipelineVersion: !GetAtt CodePipeline.Version
+
 
 

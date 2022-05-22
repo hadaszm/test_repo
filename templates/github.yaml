@@ -5,10 +5,10 @@ Description: template for creating pipelines
 Parameters:
   RepoOwner:
     Type: String
-    Default: 'hadaszm'
+    Default: hadaszm
   RepoName:
     Type: String
-    Default: 'test_repo'
+    Default: 'test_repo' 
   RepoBranch:
     Type: String
     Default: 'main'
@@ -23,10 +23,10 @@ Parameters:
     Default: 'ApiGatewayStack'
   PipelineRole:
     Type: String
-    Default:  arn:aws:iam::980494704750:role/LabRole
+    Default: arn:aws:iam::980494704750:role/LabRole
   OAuthToken:
     Type: String
-    Default: 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
+    Default: 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
 
 Resources:
   PipelineArtifactsBucket:
@@ -113,7 +113,7 @@ Resources:
     Properties:
       Authentication: GITHUB_HMAC
       AuthenticationConfiguration:
-        SecretToken: !Ref
+        SecretToken: !Ref OAuthToken
       RegisterWithThirdParty: 'true'
       Filters:
       - JsonPath: "$.ref"
