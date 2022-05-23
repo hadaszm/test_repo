@@ -105,7 +105,6 @@ Resources:
             RoleArn: !Ref PipelineRole
             StackName: !Ref ApiGatewayStackName
             TemplatePath: !Sub "SourceCode::templates/api_gateway.yaml"
-          DependsOn: LambdaDeploy
           RunOrder: 1     
 
 
