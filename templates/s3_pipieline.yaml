@@ -70,7 +70,7 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: delete_celeb_lambda.zip
+            ObjectKey: !Sub "SourceArtifact::templates/delete_celeb_lambda.zip" 
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
         - Name: Lambda2Deploy
@@ -86,7 +86,7 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: rekognition_lambda.zip
+            ObjectKey: !Sub "SourceArtifact::templates/rekognition_lambda.zip"  
           Region: !Ref 'AWS::Region' 
           OutputArtifacts: []         
         - Name: Lambda3Deploy
@@ -102,7 +102,7 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: save_results_lambda.zip
+            ObjectKey: !Sub "SourceArtifact::templates/save_results_lambda.zip"  
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
         - Name: Lambda4Deploy
@@ -118,7 +118,7 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: send_report_lambda.zip
+            ObjectKey: !Sub "SourceArtifact::templates/send_report_lambda.zip"  
           Region: !Ref 'AWS::Region' 
           OutputArtifacts: []       
         - Name: Lambda5Deploy
@@ -134,7 +134,7 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: subscribe_reports_lambda.zip
+            ObjectKey: !Sub "SourceArtifact::templates/subscribe_reports_lambda.zip"  
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
           RunOrder: 1     
