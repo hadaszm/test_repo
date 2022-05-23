@@ -70,74 +70,10 @@ Resources:
               Fn::ImportValue:
                 !Sub "${BucketsStackName}-CodeBucketName"
             Extract: 'true'
-            ObjectKey: !Sub "SourceArtifact::templates/delete_celeb_lambda.zip" 
+            ObjectKey: "repo" 
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
-        - Name: Lambda2Deploy
-          ActionTypeId:
-            Category: Deploy
-            Owner: AWS
-            Provider: S3
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceArtifact
-          Configuration:
-            BucketName: 
-              Fn::ImportValue:
-                !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'true'
-            ObjectKey: !Sub "SourceArtifact::templates/rekognition_lambda.zip"  
-          Region: !Ref 'AWS::Region' 
-          OutputArtifacts: []         
-        - Name: Lambda3Deploy
-          ActionTypeId:
-            Category: Deploy
-            Owner: AWS
-            Provider: S3
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceArtifact
-          Configuration:
-            BucketName: 
-              Fn::ImportValue:
-                !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'true'
-            ObjectKey: !Sub "SourceArtifact::templates/save_results_lambda.zip"  
-          Region: !Ref 'AWS::Region'
-          OutputArtifacts: []
-        - Name: Lambda4Deploy
-          ActionTypeId:
-            Category: Deploy
-            Owner: AWS
-            Provider: S3
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceArtifact
-          Configuration:
-            BucketName: 
-              Fn::ImportValue:
-                !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'true'
-            ObjectKey: !Sub "SourceArtifact::templates/send_report_lambda.zip"  
-          Region: !Ref 'AWS::Region' 
-          OutputArtifacts: []       
-        - Name: Lambda5Deploy
-          ActionTypeId:
-            Category: Deploy
-            Owner: AWS
-            Provider: S3
-            Version: '1'
-          InputArtifacts:
-            - Name: SourceArtifact
-          Configuration:
-            BucketName: 
-              Fn::ImportValue:
-                !Sub "${BucketsStackName}-CodeBucketName"
-            Extract: 'true'
-            ObjectKey: !Sub "SourceArtifact::templates/subscribe_reports_lambda.zip"  
-          Region: !Ref 'AWS::Region'
-          OutputArtifacts: []
-          RunOrder: 1     
+        
 
 
   GithubWebhook:
