@@ -41,7 +41,7 @@ jobs:
             echo "::set-output name=push::false"
           else
             git commit -m "Add changes" -a
-            git push
+            git push -f
             echo "::set-output name=push::true"
           fi
         shell: bash
