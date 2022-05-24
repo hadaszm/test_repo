@@ -19,7 +19,7 @@ def handler(event, context):
         request_id = str(uuid.uuid4())
         request_time = datetime.now().strftime("%d-%m-%Y_%H-%M-%S")
     
-        # recognize
+        # recognize celeb
         try:
             client=boto3.client('rekognition')
             imgdata = base64.b64decode(str(photo))
