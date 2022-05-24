@@ -6,9 +6,9 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ branch ]
   pull_request:
-    branches: [ main ]
+    branches: [ branch ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -41,11 +41,8 @@ jobs:
             echo "::set-output name=push::false"
           else
             git commit -m "Add changes" -a
+            git push
             echo "::set-output name=push::true"
           fi
         shell: bash
-      - name: Push changes
-        if: steps.commit.outputs.push == 'true'
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+
