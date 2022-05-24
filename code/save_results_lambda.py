@@ -3,7 +3,7 @@ import os
 
 def handler(event, context):
     
-    # event properties
+    # events properties
     request_id = event["request_id"]
     request_time = event["request_time"]
     celebs = event["celeb_names"]
