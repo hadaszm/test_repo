@@ -20,7 +20,7 @@ Parameters:
     Default: arn:aws:iam::980494704750:role/LabRole
   OAuthToken:
     Type: String
-    Default: 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
+    Default: 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
 
 Resources:
   PipelineArtifactsBucket:
@@ -73,7 +73,21 @@ Resources:
             ObjectKey: "repo" 
           Region: !Ref 'AWS::Region'
           OutputArtifacts: []
-        
+          RunOrder: 1   
+      - Name: LambdaInvoke
+        Actions:
+        - Name: LambdaInvoke
+          ActionTypeId:
+            Category: Invoke
+            Owner: AWS
+            Provider: Lambda
+            Version: '1'
+          Configuration:
+            FunctionName: SimpleLambda
+          Region: !Ref 'AWS::Region'
+          InputArtifacts: []
+          OutputArtifacts: []
+          RunOrder: 1   
 
 
   GithubWebhook:

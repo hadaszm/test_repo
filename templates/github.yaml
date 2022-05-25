@@ -26,7 +26,7 @@ Parameters:
     Default: arn:aws:iam::980494704750:role/LabRole
   OAuthToken:
     Type: String
-    Default: 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
+    Default: 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
 
 Resources:
   PipelineArtifactsBucket:
@@ -61,7 +61,7 @@ Resources:
             PollForSourceChanges: false
             OAuthToken: !Ref OAuthToken
           RunOrder: 1
-      - Name: Deploy
+      - Name: BucketDeploy
         Actions:
         - Name: BucketDeploy
           ActionTypeId:
@@ -77,6 +77,8 @@ Resources:
             RoleArn: !Ref PipelineRole
             StackName: !Ref BucketsStackName
             TemplatePath: !Sub "SourceCode::templates/buckets.yaml"
+      - Name: LambdaDeploy
+        Actions:
         - Name: LambdaDeploy
           ActionTypeId:
             Category: Deploy
@@ -91,6 +93,8 @@ Resources:
             RoleArn: !Ref PipelineRole
             StackName: !Ref LambdasStackName
             TemplatePath: !Sub "SourceCode::templates/lambdas.yaml"
+      - Name: ApiGatewayDeploy
+        Actions:
         - Name: ApiGatewayDeploy
           ActionTypeId:
             Category: Deploy
